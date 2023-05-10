@@ -24,13 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>io.micronaut</groupId>
-            <artifactId>micronaut-management</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.micronaut.grpc</groupId>
-            <artifactId>micronaut-grpc-runtime</artifactId>
-            <scope>compile</scope>
+            <artifactId>micronaut-http-server-netty</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
