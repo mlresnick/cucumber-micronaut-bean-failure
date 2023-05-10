@@ -1,0 +1,14 @@
+<configuration>
+    <appender name="console-log" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- @formatter:off -->
+            <pattern>%d %-5level [%thread] [%logger{36}] [%X] - %replace(%msg){'\n', '&#13;&#10;'}%n</pattern>
+            <!-- @formatter:on -->
+        </encoder>
+    </appender>
+
+    <root level="INFO" additivity="false">
+        <appender-ref ref="console-log"/>
+    </root>
+
+</configuration>
