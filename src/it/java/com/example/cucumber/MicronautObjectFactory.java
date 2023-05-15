@@ -2,34 +2,38 @@ package com.example.cucumber;
 
 import io.cucumber.core.backend.ObjectFactory;
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.runtime.server.EmbeddedServer;
+import io.micronaut.grpc.server.GrpcEmbeddedServer;
 
-public class MicronautObjectFactory implements ObjectFactory {
+public final class MicronautObjectFactory implements ObjectFactory {
 
-    private EmbeddedServer embeddedServer;
+    ApplicationContext applicationContext;
 
     @Override
     public void start() {
-        if (embeddedServer == null) {
-            embeddedServer = ApplicationContext.run(EmbeddedServer.class);
+        if (applicationContext == null) {
+            applicationContext = ApplicationContext.builder(GrpcEmbeddedServer.class)
+                    .environments("it").start();
         }
     }
 
     @Override
     public void stop() {
-        if (embeddedServer != null) {
-            embeddedServer.stop();
-            embeddedServer = null;
+        if (applicationContext != null) {
+            applicationContext.stop();
+            applicationContext = null;
         }
     }
 
     @Override
-    public boolean addClass(Class<?> glueClass) {
-        return true;
+    public <T> T getInstance(Class<T> glueClass) {
+        if (applicationContext != null) {
+            return applicationContext.getBean(glueClass);
+        }
+        return null;
     }
 
     @Override
-    public <T> T getInstance(Class<T> glueClass) {
-        return embeddedServer.getApplicationContext().getBean(glueClass);
+    public boolean addClass(Class<?> aClass) {
+        return true;
     }
 }
